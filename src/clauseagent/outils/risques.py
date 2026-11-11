@@ -5,6 +5,10 @@ le modèle. Trois raisons à ce choix : le résultat est stable d'une exécution
 l'autre, il reste explicable devant un juriste, et il ne coûte aucun appel
 distant. L'agent garde la main sur l'interprétation ; cet outil se contente de
 dire « cette clause mérite un œil humain, pour tel motif ».
+
+Le lexique est bilingue. Les contrats d'infrastructure sont fréquemment rédigés
+en anglais, et c'est aussi la langue de CUAD, le jeu annoté par des juristes qui
+sert à mesurer la précision et le rappel de cet outil (voir `clauseagent.evaluation`).
 """
 
 from __future__ import annotations
@@ -14,7 +18,8 @@ import unicodedata
 
 from clauseagent.models import CategorieRisque, Clause, Gravite, Risque
 
-# Pour chaque catégorie : termes déclencheurs et gravité de base.
+# Pour chaque catégorie : termes déclencheurs (français puis anglais) et
+# gravité de base.
 LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
     CategorieRisque.PENALITE: (
         (
@@ -25,6 +30,11 @@ LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
             "indemnite forfaitaire",
             "dommages et interets",
             "amende",
+            "liquidated damages",
+            "penalty",
+            "penalties",
+            "late payment charge",
+            "late fee",
         ),
         Gravite.ELEVEE,
     ),
@@ -36,6 +46,10 @@ LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
             "mise en demeure",
             "decheance",
             "terminaison",
+            "termination",
+            "terminate",
+            "may be terminated",
+            "cure period",
         ),
         Gravite.ELEVEE,
     ),
@@ -47,11 +61,27 @@ LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
             "indemnisation",
             "prejudice",
             "exoneration",
+            "limitation of liability",
+            "shall not be liable",
+            "aggregate liability",
+            "consequential damages",
+            "indemnify",
+            "indemnification",
+            "hold harmless",
         ),
         Gravite.ELEVEE,
     ),
     CategorieRisque.CONFIDENTIALITE: (
-        ("confidentialite", "confidentiel", "secret des affaires", "non-divulgation"),
+        (
+            "confidentialite",
+            "confidentiel",
+            "secret des affaires",
+            "non-divulgation",
+            "confidential information",
+            "confidentiality",
+            "non-disclosure",
+            "trade secret",
+        ),
         Gravite.MOYENNE,
     ),
     CategorieRisque.PROPRIETE_INTELLECTUELLE: (
@@ -61,15 +91,33 @@ LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
             "licence",
             "brevet",
             "cession de droits",
+            "intellectual property",
+            "license grant",
+            "hereby grants",
+            "copyright",
+            "patent",
+            "work made for hire",
         ),
         Gravite.MOYENNE,
     ),
     CategorieRisque.ASSURANCE: (
-        ("assurance", "responsabilite civile professionnelle", "attestation d'assurance"),
+        (
+            "assurance",
+            "responsabilite civile professionnelle",
+            "attestation d'assurance",
+            "insurance",
+            "commercial general liability",
+            "certificate of insurance",
+        ),
         Gravite.MOYENNE,
     ),
     CategorieRisque.FORCE_MAJEURE: (
-        ("force majeure", "cas fortuit", "evenement imprevisible"),
+        (
+            "force majeure",
+            "cas fortuit",
+            "evenement imprevisible",
+            "act of god",
+        ),
         Gravite.FAIBLE,
     ),
     CategorieRisque.RENOUVELLEMENT_TACITE: (
@@ -78,6 +126,11 @@ LEXIQUE: dict[CategorieRisque, tuple[tuple[str, ...], Gravite]] = {
             "renouvele tacitement",
             "reconduction tacite",
             "renouvellement tacite",
+            "automatically renew",
+            "automatic renewal",
+            "auto-renew",
+            "renewal term",
+            "successive renewal",
         ),
         Gravite.ELEVEE,
     ),
@@ -95,6 +148,13 @@ AGGRAVANTS: tuple[tuple[str, str], ...] = (
     ("solidairement", "responsabilité solidaire"),
     ("renonce", "renonciation à un droit"),
     ("exclusive", "exclusivité consentie"),
+    ("without notice", "aucun préavis requis"),
+    ("without further notice", "aucun préavis requis"),
+    ("immediately upon", "effet immédiat"),
+    ("unlimited", "absence de plafond"),
+    ("perpetual", "engagement perpétuel"),
+    ("jointly and severally", "responsabilité solidaire"),
+    ("waives", "renonciation à un droit"),
 )
 
 _ORDRE_GRAVITE = {Gravite.FAIBLE: 0, Gravite.MOYENNE: 1, Gravite.ELEVEE: 2}
@@ -108,6 +168,8 @@ FAUX_AMIS: tuple[str, ...] = (
     "societe a responsabilite limitee",
     "a responsabilite limitee",
     "societe par actions simplifiee a responsabilite",
+    "limited liability company",
+    "limited liability partnership",
 )
 
 
