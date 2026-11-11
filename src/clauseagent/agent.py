@@ -21,6 +21,7 @@ points qu'un gestionnaire de contrats voudra pouvoir inspecter.
 from __future__ import annotations
 
 import json
+import re
 import unicodedata
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -92,6 +93,9 @@ class Agent:
     synthese: str = field(default="", init=False)
     chemin_export: Path | None = field(default=None, init=False)
     _index_clauses: dict[str, Clause] = field(default_factory=dict, init=False)
+    _index_references: dict[tuple[str, tuple[str, ...]], Clause] = field(
+        default_factory=dict, init=False
+    )
 
     def __post_init__(self) -> None:
         if self.anonymiseur is None:
@@ -259,6 +263,9 @@ class Agent:
         self._index_clauses = {
             _normaliser(clause.identifiant): clause for clause in self.clauses
         }
+        self._index_references = {}
+        for clause in self.clauses:
+            self._index_references.setdefault(_cle_reference(clause.identifiant), clause)
         return {
             "nombre": len(self.clauses),
             "clauses": [
@@ -331,7 +338,7 @@ class Agent:
             evenements=self.evenements,
         )
 
-        mis_a_jour = 0
+        concernes = 0
         if identifiant:
             clause = self._trouver_clause(identifiant)
             for element in self.elements:
@@ -341,9 +348,11 @@ class Agent:
                     continue
                 if not _correspond(element.echeance_textuelle, expression_reelle):
                     continue
-                element.echeance_calculee = resultat.date_calculee
+                # La base est reportée même sans date : elle indique au
+                # gestionnaire quelle information reste à fournir.
                 element.base_calcul = resultat.base
-                mis_a_jour += 1
+                element.echeance_calculee = resultat.date_calculee
+                concernes += 1
 
         return {
             "expression": expression,
@@ -353,7 +362,8 @@ class Agent:
             "base_de_calcul": resultat.base,
             "explication": resultat.commentaire,
             "avertissements": resultat.avertissements,
-            "elements_mis_a_jour": mis_a_jour,
+            "elements_concernes": concernes,
+            "date_manquante": resultat.date_calculee is None,
         }
 
     def _outil_signaler_risque(self) -> dict[str, Any]:
@@ -415,15 +425,22 @@ class Agent:
         if not self.clauses:
             raise RuntimeError("Appelle decouper_clauses avant d'extraire une clause.")
 
-        cherche = _normaliser(self.anonymiseur.restaurer(identifiant))
-        clause = self._index_clauses.get(cherche)
+        reference = self.anonymiseur.restaurer(identifiant)
+        clause = self._index_clauses.get(_normaliser(reference))
         if clause is not None:
             return clause
 
-        # Tolérance aux variantes de rédaction : « art. 4.2 » pour « Article 4.2 ».
-        for cle, candidate in self._index_clauses.items():
-            if cherche and (cherche in cle or cle in cherche):
-                return candidate
+        # Tolérance aux variantes de rédaction : « art. 4.2 » ou « 4.2 » pour
+        # « Article 4.2 ». La comparaison porte sur le type et la suite de
+        # numéros, de sorte que « Article 99 » ne tombe pas sur « Article 9 ».
+        mot, numeros = _cle_reference(reference)
+        clause = self._index_references.get((mot, numeros))
+        if clause is not None:
+            return clause
+        if numeros:
+            for (_, autres_numeros), candidate in self._index_references.items():
+                if autres_numeros == numeros:
+                    return candidate
 
         disponibles = ", ".join(clause.identifiant for clause in self.clauses[:20])
         raise ValueError(
@@ -464,10 +481,27 @@ class Agent:
         ).strip()
 
 
+_SYNONYMES_REFERENCE = {
+    "art": "article",
+    "articles": "article",
+    "clause": "article",
+    "clauses": "article",
+}
+
+
 def _normaliser(texte: str) -> str:
     decompose = unicodedata.normalize("NFD", texte.casefold())
     sans_accents = "".join(c for c in decompose if unicodedata.category(c) != "Mn")
     return " ".join(sans_accents.replace(".", " ").split())
+
+
+def _cle_reference(texte: str) -> tuple[str, tuple[str, ...]]:
+    """Réduit une référence de clause à son type et à sa suite de numéros."""
+    normalise = _normaliser(texte)
+    numeros = tuple(re.findall(r"\d+", normalise))
+    mots = re.findall(r"[a-z-]+", normalise)
+    mot = mots[0] if mots else ""
+    return _SYNONYMES_REFERENCE.get(mot, mot), numeros
 
 
 def _correspond(echeance: str, expression: str) -> bool:
