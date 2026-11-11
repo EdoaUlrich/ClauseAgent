@@ -1,0 +1,136 @@
+{
+  "version": "mini",
+  "data": [
+    {
+      "title": "MasterServicesAgreement",
+      "paragraphs": [
+        {
+          "context": "MASTER SERVICES AGREEMENT\n\nThis Master Services Agreement is entered into as of March 1, 2026.\n\nSection 1. SERVICES\nThe Supplier shall provide the maintenance services described in Exhibit A.\n\nSection 2. TERM AND RENEWAL\nThe initial term is three years. Thereafter, this Agreement shall automatically renew for successive renewal terms of twelve months unless either party gives written notice at least ninety days prior to the end of the then-current term.\n\nSection 3. FEES\nThe Customer shall pay the annual fee within thirty days of receipt of invoice.\n\nSection 4. LIQUIDATED DAMAGES\nIf the Supplier fails to meet the response times, the Supplier shall pay liquidated damages of five hundred dollars per hour of delay, capped at fifteen thousand dollars per event.\n\nSection 5. LIMITATION OF LIABILITY\nThe aggregate liability of the Supplier under this Agreement shall not exceed the fees paid during the preceding twelve months. Neither party shall be liable for consequential damages.\n\nSection 6. INSURANCE\nThe Supplier shall maintain commercial general liability insurance of not less than two million dollars per occurrence and shall provide a certificate of insurance annually.\n\nSection 7. TERMINATION FOR CONVENIENCE\nThe Customer may terminate this Agreement for convenience upon six months written notice and payment of an early termination fee.\n\nSection 8. GOVERNING LAW\nThis Agreement is governed by the laws of the State of New York.\n",
+          "qas": [
+            {
+              "id": "msa__Renewal Term",
+              "question": "Highlight the parts (if any) of this contract related to \"Renewal Term\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "shall automatically renew for successive renewal terms of twelve months",
+                  "answer_start": 281
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Liquidated Damages",
+              "question": "Highlight the parts (if any) of this contract related to \"Liquidated Damages\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "shall pay liquidated damages of five hundred dollars per hour of delay",
+                  "answer_start": 649
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Cap On Liability",
+              "question": "Highlight the parts (if any) of this contract related to \"Cap On Liability\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "The aggregate liability of the Supplier under this Agreement shall not exceed the fees paid during the preceding twelve months.",
+                  "answer_start": 803
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Insurance",
+              "question": "Highlight the parts (if any) of this contract related to \"Insurance\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "The Supplier shall maintain commercial general liability insurance of not less than two million dollars per occurrence",
+                  "answer_start": 1010
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Termination For Convenience",
+              "question": "Highlight the parts (if any) of this contract related to \"Termination For Convenience\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "The Customer may terminate this Agreement for convenience upon six months written notice",
+                  "answer_start": 1224
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Governing Law",
+              "question": "Highlight the parts (if any) of this contract related to \"Governing Law\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "the laws of the State of New York",
+                  "answer_start": 1410
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "msa__Non-Compete",
+              "question": "Highlight the parts (if any) of this contract related to \"Non-Compete\" that should be reviewed by a lawyer.",
+              "answers": [],
+              "is_impossible": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "SoftwareLicenseAgreement",
+      "paragraphs": [
+        {
+          "context": "SOFTWARE LICENSE AGREEMENT\n\nARTICLE 1 - DEFINITIONS\nCapitalized terms have the meanings set out in this Article.\n\nARTICLE 2 - LICENSE GRANT\nLicensor hereby grants to Licensee a non-transferable license to use the Software for internal business purposes.\n\nARTICLE 3 - INTELLECTUAL PROPERTY\nAll intellectual property rights in the Software remain the exclusive property of Licensor. Licensee assigns to Licensor any improvements conceived in the course of this Agreement.\n\nARTICLE 4 - INSURANCE\nLicensee shall maintain insurance covering its obligations under this Agreement.\n\nARTICLE 5 - NOTICES\nAll notices shall be delivered to the addresses set out above.\n",
+          "qas": [
+            {
+              "id": "sla__License Grant",
+              "question": "Highlight the parts (if any) of this contract related to \"License Grant\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "Licensor hereby grants to Licensee a non-transferable license to use the Software",
+                  "answer_start": 140
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "sla__Ip Ownership Assignment",
+              "question": "Highlight the parts (if any) of this contract related to \"IP Ownership Assignment\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "Licensee assigns to Licensor any improvements conceived in the course of this Agreement.",
+                  "answer_start": 381
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "sla__Insurance",
+              "question": "Highlight the parts (if any) of this contract related to \"Insurance\" that should be reviewed by a lawyer.",
+              "answers": [
+                {
+                  "text": "Licensee shall maintain insurance covering its obligations under this Agreement.",
+                  "answer_start": 493
+                }
+              ],
+              "is_impossible": false
+            },
+            {
+              "id": "sla__Liquidated Damages",
+              "question": "Highlight the parts (if any) of this contract related to \"Liquidated Damages\" that should be reviewed by a lawyer.",
+              "answers": [],
+              "is_impossible": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
