@@ -1,0 +1,132 @@
+CONTRAT DE MAINTENANCE D'INSTALLATIONS ÉLECTRIQUES
+
+Entre les soussignés :
+
+Atlas Énergie SAS, société par actions simplifiée au capital de 450 000 euros,
+immatriculée au RCS de Paris sous le numéro SIREN 812 345 678, dont le siège
+social est situé 12 rue de la Paix, 75002 Paris, représentée par M. Jean Dupont
+en sa qualité de Directeur Général, joignable au 01 44 55 66 77 et à l'adresse
+jean.dupont@atlas-energie.fr,
+
+ci-après désignée « le Prestataire »,
+
+Et
+
+Nordis Infra SARL, société à responsabilité limitée immatriculée au RCS de Lille
+sous le numéro SIREN 903 221 457, dont le siège social est situé 8 avenue des
+Flandres, 59000 Lille, représentée par Mme Claire Moreau,
+
+ci-après désignée « le Client »,
+
+Il a été convenu ce qui suit.
+
+PRÉAMBULE
+
+Le Client exploite un ensemble de postes de transformation raccordés au réseau
+public de distribution. Le Prestataire dispose des qualifications requises pour
+assurer la maintenance préventive et curative de ces installations. Le présent
+contrat prend effet le 1er mars 2026.
+
+ARTICLE 1 - OBJET DU CONTRAT
+
+Le Prestataire s'engage à assurer la maintenance préventive et curative des
+installations électriques du Client désignées en Annexe 1. La maintenance
+préventive comprend quatre visites annuelles réparties par trimestre.
+
+ARTICLE 2 - DURÉE ET RENOUVELLEMENT
+
+Le présent contrat est conclu pour une durée de trois ans à compter de sa date
+de prise d'effet. Il est renouvelé tacitement par périodes successives de douze
+mois, sauf dénonciation par l'une des parties notifiée par lettre recommandée
+avec accusé de réception au moins quatre mois avant l'échéance.
+
+ARTICLE 3 - OBLIGATIONS DU PRESTATAIRE
+
+3.1 Délais d'intervention
+
+Le Prestataire intervient sur site dans un délai maximum de 4 heures après
+réception d'un signalement classé critique par le Client, et dans un délai de
+2 jours ouvrés pour un signalement classé non critique.
+
+3.2 Rapports de maintenance
+
+Le Prestataire remet au Client un rapport de visite détaillé dans les 15 jours
+calendaires suivant chaque intervention préventive. Un rapport annuel de
+synthèse est transmis au plus tard le 31 janvier de chaque année.
+
+3.3 Qualification du personnel
+
+Le Prestataire garantit que l'ensemble des intervenants détient une habilitation
+électrique à jour conforme à la norme NF C 18-510. Les justificatifs sont
+communiqués au Client sur simple demande, dans un délai de 10 jours ouvrés.
+
+ARTICLE 4 - OBLIGATIONS DU CLIENT
+
+4.1 Accès aux installations
+
+Le Client garantit au Prestataire un accès libre aux installations pendant les
+heures ouvrées et met à disposition les moyens de consignation nécessaires.
+
+4.2 Conditions de paiement
+
+Le Client règle les factures dans un délai de 30 jours à compter de la date de
+réception de la facture. La redevance annuelle forfaitaire s'élève à
+96 000 euros hors taxes, payable par trimestre à terme échu par virement sur le
+compte FR76 3000 6000 0112 3456 7890 189.
+
+ARTICLE 5 - PÉNALITÉS DE RETARD
+
+5.1 Retard d'intervention
+
+En cas de dépassement des délais d'intervention stipulés à l'article 3.1, le
+Prestataire encourt une pénalité de 500 euros par heure de retard pour un
+signalement critique, plafonnée à 15 000 euros par événement.
+
+5.2 Retard de paiement
+
+Tout retard de paiement entraîne de plein droit l'application d'intérêts de
+retard calculés au taux de 10 % l'an, ainsi qu'une indemnité forfaitaire pour
+frais de recouvrement de 40 euros par facture impayée.
+
+ARTICLE 6 - RESPONSABILITÉ ET ASSURANCE
+
+La responsabilité du Prestataire au titre du présent contrat est limitée au
+montant de la redevance annuelle versée par le Client. Le Prestataire justifie
+d'une assurance de responsabilité civile professionnelle couvrant un montant
+minimum de 2 000 000 euros par sinistre. L'attestation d'assurance est fournie
+annuellement avant le 15 janvier.
+
+ARTICLE 7 - CONFIDENTIALITÉ
+
+Chaque partie s'engage à ne pas divulguer les informations techniques et
+commerciales dont elle a connaissance au titre du présent contrat. Cet
+engagement demeure en vigueur pendant cinq ans après l'expiration du contrat.
+
+ARTICLE 8 - RÉSILIATION
+
+8.1 Résiliation pour manquement
+
+En cas de manquement grave de l'une des parties à ses obligations, l'autre
+partie peut résilier le contrat de plein droit après mise en demeure restée
+sans effet pendant 30 jours à compter de sa réception.
+
+8.2 Résiliation pour convenance
+
+Le Client dispose de la faculté de résilier le contrat pour convenance, sous
+réserve d'un préavis de six mois et du versement d'une indemnité égale à
+25 % des redevances restant à courir.
+
+ARTICLE 9 - FORCE MAJEURE
+
+Aucune des parties ne peut être tenue responsable d'un manquement résultant d'un
+événement de force majeure au sens de l'article 1218 du Code civil. La partie
+empêchée informe l'autre partie dans un délai de 5 jours ouvrés suivant la
+survenance de l'événement.
+
+ARTICLE 10 - DROIT APPLICABLE ET JURIDICTION
+
+Le présent contrat est soumis au droit français. Tout litige relatif à son
+interprétation ou à son exécution relève de la compétence exclusive du Tribunal
+de commerce de Paris.
+
+Fait à Paris, le 12 février 2026, en deux exemplaires originaux.
