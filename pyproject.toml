@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clauseagent"
+version = "0.1.0"
+description = "Agent IA d'extraction des obligations contractuelles"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.69",
+    "pydantic>=2.7",
+    "pypdf>=4.2",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    "python-dateutil>=2.9",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+interface = ["PySide6>=6.7"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.5"]
+
+[project.scripts]
+clauseagent = "clauseagent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

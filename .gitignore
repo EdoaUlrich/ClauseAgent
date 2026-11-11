@@ -1,0 +1,33 @@
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets et configuration locale
+.env
+*.key
+
+# Donnees et sorties
+donnees/cuad/
+sorties/
+*.xlsx
+!exemples/*.xlsx
+
+# Outils et IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
