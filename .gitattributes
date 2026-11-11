@@ -1,0 +1,5 @@
+# Fins de ligne normalisées en LF dans le dépôt, quel que soit le poste.
+* text=auto eol=lf
+*.xlsx binary
+*.pdf binary
+*.docx binary
