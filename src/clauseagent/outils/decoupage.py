@@ -22,18 +22,20 @@ _FINS_INTERDITES = (".", ";", ",", ":")
 _MAJUSCULE = "A-ZÀ-ÖØ-Þ"
 
 MOTIFS_TITRES: tuple[re.Pattern[str], ...] = (
-    # « ARTICLE 4 - Pénalités de retard », « Art. 4.2 : Objet »
+    # « ARTICLE 4 - Pénalités de retard », « Art. 4.2 : Objet », « Section 7.1 »
     re.compile(
-        r"^[ \t]*(?P<mot>ARTICLE|Article|ART\.|Art\.|CLAUSE|Clause)[ \t]+"
+        r"^[ \t]*(?P<mot>ARTICLE|Article|ART\.|Art\.|CLAUSE|Clause"
+        r"|SECTION|Section|Sec\.)[ \t]+"
         r"(?P<numero>\d+(?:\.\d+)*|[IVXLC]{1,6})"
         r"[ \t]*[-–—:.)]?[ \t]*(?P<titre>[^\n]{0,120})$",
         re.MULTILINE,
     ),
-    # « PRÉAMBULE », « TITRE II - Exécution », « ANNEXE 1 »
+    # « PRÉAMBULE », « TITRE II - Exécution », « ANNEXE 1 », « EXHIBIT A »
     re.compile(
         r"^[ \t]*(?P<mot>PRÉAMBULE|PREAMBULE|Préambule|Preambule|TITRE|Titre"
-        r"|ANNEXE|Annexe|AVENANT|Avenant)"
-        r"[ \t]*(?P<numero>\d+(?:\.\d+)*|[IVXLC]{1,6})?"
+        r"|ANNEXE|Annexe|AVENANT|Avenant|EXHIBIT|Exhibit|SCHEDULE|Schedule"
+        r"|APPENDIX|Appendix|RECITALS|Recitals)"
+        r"[ \t]*(?P<numero>\d+(?:\.\d+)*|[IVXLC]{1,6}|[A-Z])?"
         r"[ \t]*[-–—:.)]?[ \t]*(?P<titre>[^\n]{0,120})$",
         re.MULTILINE,
     ),
