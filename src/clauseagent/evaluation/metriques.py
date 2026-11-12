@@ -61,6 +61,8 @@ class RapportEvaluation:
     nombre_contrats: int = 0
     scores: dict[CategorieRisque, Score] = field(default_factory=dict)
     contrats_ignores: list[str] = field(default_factory=list)
+    echantillon: str = "validation"
+    seuil: int = 0
 
     @property
     def global_(self) -> Score:
@@ -71,6 +73,8 @@ class RapportEvaluation:
 
     def en_dictionnaire(self) -> dict:
         return {
+            "echantillon": self.echantillon,
+            "seuil": self.seuil,
             "contrats_evalues": self.nombre_contrats,
             "contrats_ignores": self.contrats_ignores,
             "global": _mesures(self.global_),
@@ -82,7 +86,8 @@ class RapportEvaluation:
 
     def rendu_texte(self) -> str:
         lignes = [
-            f"Évaluation sur {self.nombre_contrats} contrats CUAD",
+            f"Évaluation sur {self.nombre_contrats} contrats CUAD "
+            f"(échantillon : {self.echantillon})",
             "",
             f"{'Catégorie':<26}{'Attendus':>9}{'Précision':>11}{'Rappel':>9}{'F1':>8}",
             "-" * 63,
@@ -103,6 +108,15 @@ class RapportEvaluation:
             "Mesure au niveau de la clause : un passage annoté est considéré comme",
             "retrouvé dès qu'une clause signalée de la même catégorie le recouvre.",
         ]
+        if self.echantillon == "mise-au-point":
+            lignes.append(
+                "Échantillon ayant servi au réglage du lexique : résultat optimiste."
+            )
+        elif self.echantillon == "tout":
+            lignes.append(
+                "Jeu complet, moitié de réglage comprise : résultat optimiste. "
+                "Utiliser « validation » pour une mesure honnête."
+            )
         if self.contrats_ignores:
             lignes.append(
                 f"{len(self.contrats_ignores)} contrats écartés faute d'annotation "

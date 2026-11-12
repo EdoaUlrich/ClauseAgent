@@ -8,7 +8,9 @@ from pathlib import Path
 
 from clauseagent import __version__
 from clauseagent.config import EFFORTS_VALIDES, Configuration
+from clauseagent.evaluation.executer import ECHANTILLONS
 from clauseagent.models import AnalyseContrat, Gravite, TypeElement
+from clauseagent.outils.risques import SEUIL_DEFAUT
 
 
 def construire_analyseur() -> argparse.ArgumentParser:
@@ -48,7 +50,16 @@ def construire_analyseur() -> argparse.ArgumentParser:
     )
     evaluer.add_argument("--jeu", required=True, help="chemin du fichier CUAD_v1.json")
     evaluer.add_argument(
-        "--contrats", type=int, default=10, help="nombre de contrats à évaluer"
+        "--contrats", type=int, help="nombre de contrats à évaluer (tous par défaut)"
+    )
+    evaluer.add_argument(
+        "--echantillon",
+        choices=ECHANTILLONS,
+        default="validation",
+        help="moitié du jeu à utiliser ; « validation » n'a servi à aucun réglage",
+    )
+    evaluer.add_argument(
+        "--seuil", type=int, default=SEUIL_DEFAUT, help="score minimal de signalement"
     )
     evaluer.add_argument("--rapport", help="chemin du rapport JSON à écrire")
     evaluer.add_argument(
@@ -161,6 +172,8 @@ def _commande_evaluer(arguments: argparse.Namespace) -> int:
         nombre_contrats=arguments.contrats,
         chemin_rapport=arguments.rapport,
         graine=arguments.graine,
+        echantillon=arguments.echantillon,
+        seuil=arguments.seuil,
     )
     print(rapport.rendu_texte())
     return 0
