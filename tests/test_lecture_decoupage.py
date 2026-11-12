@@ -105,3 +105,66 @@ def test_repli_en_paragraphes_sans_numerotation():
 
 def test_texte_vide():
     assert decouper_clauses("") == []
+
+
+def test_intitules_en_ligne_reconnus():
+    """Cas d'un PDF dont l'extraction a supprimé les retours à la ligne."""
+    texte = (
+        "This Consulting Agreement is entered into as of March 1, 2026 between "
+        "the parties identified below, who agree as follows. 1. Definitions. "
+        "The following meanings shall apply throughout this Agreement and its "
+        "schedules. 2. No Control by the Company. The Parties agree that the "
+        "Consultant shall use its own judgment as to the time and place of its "
+        "services. 3. Independent Contractor. The Parties expressly intend that "
+        "the Consultant acts as an independent contractor and not as an employee."
+    )
+    references = [clause.identifiant for clause in decouper_clauses(texte)]
+
+    assert "Article 2" in references
+    assert "Article 3" in references
+
+
+def test_une_enumeration_ordinaire_n_est_pas_un_intitule():
+    """La seconde passe exige un intitulé court dont les mots portent une majuscule."""
+    texte = (
+        "The Supplier shall deliver the equipment described in the schedule, "
+        "together with all documentation reasonably required by the Customer. "
+        "1. the equipment must be new and unused. 2. the documentation must be "
+        "provided in French. 3. the delivery must take place during working hours."
+    )
+    references = [clause.identifiant for clause in decouper_clauses(texte)]
+
+    assert all(reference.startswith("Paragraphe") for reference in references)
+
+
+def test_entete_sans_corps_absorbe_par_ses_sous_clauses():
+    texte = (
+        "ARTICLE 3 - OBLIGATIONS DU PRESTATAIRE\n\n"
+        "3.1 Délais d'intervention\n\n"
+        "Le Prestataire intervient sur site dans un délai maximum de 4 heures "
+        "après réception d'un signalement critique.\n\n"
+        "3.2 Rapports de maintenance\n\n"
+        "Le Prestataire remet un rapport détaillé dans les 15 jours suivant "
+        "chaque intervention préventive.\n"
+    )
+    clauses = decouper_clauses(texte)
+    references = [clause.identifiant for clause in clauses]
+
+    assert "Article 3" not in references
+    assert references == ["Article 3.1", "Article 3.2"]
+    # Le titre de la section est reporté sur les sous-clauses.
+    assert clauses[0].titre.startswith("OBLIGATIONS DU PRESTATAIRE")
+    assert "Délais d'intervention" in clauses[0].titre
+
+
+def test_un_entete_avec_corps_reste_une_clause():
+    texte = (
+        "ARTICLE 3 - OBLIGATIONS DU PRESTATAIRE\n\n"
+        "Le Prestataire assure la maintenance préventive et curative des "
+        "installations désignées en annexe.\n\n"
+        "3.1 Délais d'intervention\n\n"
+        "Le Prestataire intervient dans un délai maximum de 4 heures.\n"
+    )
+    references = [clause.identifiant for clause in decouper_clauses(texte)]
+
+    assert references == ["Article 3", "Article 3.1"]

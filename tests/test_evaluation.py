@@ -83,7 +83,7 @@ def test_evaluation_d_un_contrat_retrouve_les_clauses_annotees():
     for categorie in (
         CategorieRisque.PENALITE,
         CategorieRisque.ASSURANCE,
-        CategorieRisque.RESILIATION,
+        CategorieRisque.RESILIATION_CONVENANCE,
         CategorieRisque.RENOUVELLEMENT_TACITE,
     ):
         assert scores[categorie].rappel == 1.0, categorie
@@ -91,7 +91,9 @@ def test_evaluation_d_un_contrat_retrouve_les_clauses_annotees():
 
 def test_campagne_complete_et_rapport(tmp_path: Path):
     rapport_json = tmp_path / "rapport.json"
-    rapport = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=5, chemin_rapport=rapport_json)
+    rapport = evaluer_sur_cuad(
+        MINI_CUAD, echantillon="tout", chemin_rapport=rapport_json
+    )
 
     assert rapport.nombre_contrats == 2
     assert rapport.global_.attendus > 0
@@ -99,18 +101,42 @@ def test_campagne_complete_et_rapport(tmp_path: Path):
 
     contenu = json.loads(rapport_json.read_text(encoding="utf-8"))
     assert contenu["contrats_evalues"] == 2
+    assert contenu["echantillon"] == "tout"
     assert "par_categorie" in contenu
 
 
 def test_le_tirage_est_reproductible():
-    premier = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=1, graine=7)
-    second = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=1, graine=7)
+    premier = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=1, graine=7, echantillon="tout")
+    second = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=1, graine=7, echantillon="tout")
 
     assert premier.en_dictionnaire() == second.en_dictionnaire()
 
 
+def test_les_echantillons_sont_disjoints_et_stables():
+    """Le réglage et la mesure ne doivent jamais porter sur les mêmes contrats."""
+    reglage = evaluer_sur_cuad(MINI_CUAD, echantillon="mise-au-point")
+    mesure = evaluer_sur_cuad(MINI_CUAD, echantillon="validation")
+    tout = evaluer_sur_cuad(MINI_CUAD, echantillon="tout")
+
+    assert reglage.nombre_contrats + mesure.nombre_contrats == tout.nombre_contrats
+    assert evaluer_sur_cuad(MINI_CUAD, echantillon="validation").en_dictionnaire() == (
+        mesure.en_dictionnaire()
+    )
+
+
+def test_echantillon_inconnu_refuse():
+    with pytest.raises(ValueError, match="Échantillon inconnu"):
+        evaluer_sur_cuad(MINI_CUAD, echantillon="entrainement")
+
+
+def test_le_rapport_signale_un_resultat_optimiste():
+    rendu = evaluer_sur_cuad(MINI_CUAD, echantillon="tout").rendu_texte()
+
+    assert "optimiste" in rendu
+
+
 def test_rendu_texte_lisible():
-    rendu = evaluer_sur_cuad(MINI_CUAD, nombre_contrats=2).rendu_texte()
+    rendu = evaluer_sur_cuad(MINI_CUAD, echantillon="tout").rendu_texte()
 
     assert "Évaluation sur 2 contrats CUAD" in rendu
     assert "Précision" in rendu
