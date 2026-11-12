@@ -52,7 +52,7 @@ clauseagent inspecter exemples/contrat_maintenance.txt
 clauseagent interface
 
 # Évaluation sur CUAD (voir donnees/README.md)
-clauseagent evaluer --jeu donnees/cuad/CUAD_v1.json --contrats 50
+clauseagent evaluer --jeu donnees/cuad/CUAD_v1.json
 ```
 
 La configuration se fait par variables d'environnement (`.env.example` les
@@ -115,16 +115,36 @@ avertissement.
 Le signalement des clauses sensibles est évalué sur **CUAD** (Contract
 Understanding Atticus Dataset), 510 contrats annotés par des juristes. La
 commande `clauseagent evaluer` produit précision, rappel et F1 **par type de
-clause**, sur les six catégories que l'outil revendique.
+clause**, sur les six catégories dont le périmètre correspond à un libellé CUAD.
+
+Le jeu est coupé en deux moitiés à graine fixe. Le lexique et le seuil ont été
+réglés sur la première ; les chiffres ci-dessous viennent de la seconde, qui
+n'a servi à aucun réglage. 213 contrats, 1 699 passages annotés, seuil 3 :
+
+| Catégorie                  | Précision | Rappel |   F1 |
+| -------------------------- | --------: | -----: | ---: |
+| assurance                  |      80 % |   94 % | 0,87 |
+| responsabilité (plafonds)  |      79 % |   77 % | 0,78 |
+| renouvellement tacite      |      69 % |   77 % | 0,73 |
+| propriété intellectuelle   |      60 % |   89 % | 0,72 |
+| pénalités                  |      67 % |   70 % | 0,68 |
+| résiliation sans motif     |      41 % |   69 % | 0,52 |
+| **Ensemble**               |  **66 %** | **83 %** | **0,73** |
+
+La première version du détecteur obtenait 37 % de précision pour 87 % de
+rappel, soit un F1 de 0,51 : deux clauses à relire pour une qui le méritait.
+Ce qui a changé, et pourquoi, est détaillé dans
+[`docs/architecture.md`](docs/architecture.md). La comparaison n'est pas tout à
+fait à périmètre constant : la catégorie « résiliation » a été scindée en cours
+de route, sa définition débordant celle que CUAD annote.
 
 La mesure se fait au niveau de la clause et non du passage exact : elle n'est
-donc pas comparable aux publications sur CUAD. Le protocole, la correspondance
-entre catégories et les limites sont détaillés dans
+donc pas comparable aux publications sur CUAD, qui exigent un recouvrement de
+Jaccard supérieur à 0,5. Le protocole complet est dans
 [`donnees/README.md`](donnees/README.md).
 
 L'évaluation porte sur la chaîne déterministe et n'appelle pas le modèle : elle
-est gratuite et reproductible à graine fixée, donc relançable à chaque
-modification du lexique.
+est gratuite et reproductible, donc relançable à chaque modification du lexique.
 
 ## Architecture
 

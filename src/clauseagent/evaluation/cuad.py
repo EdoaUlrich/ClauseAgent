@@ -9,6 +9,15 @@ ClauseAgent ne couvre pas les 41 catégories. On n'évalue donc que celles qu'il
 prétend traiter, en indiquant explicitement la correspondance retenue. Une
 mesure sur des catégories non revendiquées ne dirait rien d'utile.
 
+La correspondance doit aussi être de même portée des deux côtés. La catégorie
+`resiliation` de ClauseAgent signale toute faculté de mettre fin au contrat,
+alors que CUAD n'annote que la résiliation sans motif : mesurer l'une par
+l'autre comptait comme erreurs des signalements corrects, et la précision
+affichée n'avait pas de sens. C'est `resiliation_convenance`, de portée
+identique, qui est désormais mise en regard. Les catégories sans équivalent
+dans CUAD — résiliation générale, indemnisation, confidentialité, force
+majeure — ne sont tout simplement pas mesurées ici.
+
 Le jeu n'est pas inclus dans le dépôt : voir `donnees/README.md` pour
 l'obtenir.
 """
@@ -26,8 +35,7 @@ from clauseagent.models import CategorieRisque
 # « Notice Period To Terminate Renewal » relèvent tous deux du renouvellement.
 CORRESPONDANCES: dict[str, CategorieRisque] = {
     "Liquidated Damages": CategorieRisque.PENALITE,
-    "Termination For Convenience": CategorieRisque.RESILIATION,
-    "Post-Termination Services": CategorieRisque.RESILIATION,
+    "Termination For Convenience": CategorieRisque.RESILIATION_CONVENANCE,
     "Cap On Liability": CategorieRisque.RESPONSABILITE,
     "Uncapped Liability": CategorieRisque.RESPONSABILITE,
     "Insurance": CategorieRisque.ASSURANCE,

@@ -23,11 +23,28 @@ class TypeElement(str, Enum):
 
 
 class CategorieRisque(str, Enum):
-    """Familles de clauses qui justifient une relecture humaine."""
+    """Familles de clauses qui justifient une relecture humaine.
+
+    Deux distinctions méritent d'être explicitées.
+
+    `RESPONSABILITE` vise les plafonds et exclusions de responsabilité ;
+    `INDEMNISATION` les engagements de garantie envers l'autre partie. Les
+    confondre reviendrait à signaler sous un même motif deux risques de nature
+    différente : l'un limite ce que l'on peut réclamer, l'autre crée une dette
+    potentielle.
+
+    `RESILIATION` couvre toute faculté de mettre fin au contrat ;
+    `RESILIATION_CONVENANCE` isole la résiliation sans motif, généralement
+    assortie d'une indemnité. C'est un risque commercial d'une autre nature
+    qu'une résiliation pour manquement, et c'est aussi la seule des deux que
+    CUAD annote, donc la seule dont la précision soit mesurable.
+    """
 
     PENALITE = "penalite"
     RESILIATION = "resiliation"
+    RESILIATION_CONVENANCE = "resiliation_convenance"
     RESPONSABILITE = "responsabilite"
+    INDEMNISATION = "indemnisation"
     CONFIDENTIALITE = "confidentialite"
     PROPRIETE_INTELLECTUELLE = "propriete_intellectuelle"
     ASSURANCE = "assurance"
