@@ -98,13 +98,94 @@ emporté :
 - **mesurabilité** : l'évaluation sur CUAD est gratuite et reproductible, donc
   relancée à chaque modification du lexique.
 
-Le lexique comporte une liste de faux amis : « société à responsabilité
-limitée » désigne une forme sociale, pas une clause de limitation de
-responsabilité. Sans ce filtre, l'en-tête de tout contrat conclu avec une SARL
-serait signalé.
+## 6. Ce que la mesure a corrigé
 
-## 6. Ce qui reste ouvert
+La première version signalait une clause dès qu'un terme du lexique y figurait.
+Sur CUAD : **37 % de précision pour 87 % de rappel**, soit un F1 de 0,51. Un
+gestionnaire recevait deux clauses à relire pour une qui le méritait. Cinq
+corrections, chacune validée par une mesure, ont porté le F1 à **0,73** sur une
+moitié du jeu tenue à l'écart des réglages.
 
+**Collisions entre langues.** `amende` reconnaissait `amended`, `assurance`
+reconnaissait `assurances`, `licence` reconnaissait `license` : le lexique
+français déclenchait sur du texte anglais. La comparaison se fait désormais sur
+mots entiers. Dans la même veine, « further assurances » — une clause de style
+par laquelle chacun s'engage à accomplir les formalités utiles — n'a rien d'une
+clause d'assurance et figure parmi les faux amis, aux côtés de « société à
+responsabilité limitée », qui désigne une forme sociale et non un plafond de
+responsabilité.
+
+**Expressions plutôt que mots.** `termination` apparaît dans presque toutes les
+sections d'un contrat de travail ; `terminate this agreement` désigne une vraie
+faculté de résiliation. Les mots génériques ne servent plus que d'indices
+d'intitulé.
+
+**Score de pertinence.** Un intitulé consacré au sujet, une expression décisive,
+ou une expression ordinaire placée en ouverture ou répétée. C'est ce que fait un
+lecteur qui survole : une section qui s'ouvre sur « Either party may terminate
+this Agreement » traite de résiliation ; une qui mentionne « after the
+Termination Date » au détour d'une phrase n'en traite pas.
+
+**Tournures, et non plus seulement termes.** Les clauses que CUAD annote comme
+résiliation sans motif ne contiennent presque jamais l'expression « for
+convenience ». Elles s'écrivent « may terminate this Agreement upon sixty (60)
+days' written notice » : une faculté de résilier, un préavis, et aucune mention
+de faute entre les deux. Un motif composé décrit cette tournure, ce qui a fait
+passer le rappel de la catégorie de 30 % à 69 %.
+
+**Découpage des contrats mal mis en forme.** 42 % des contrats CUAD portaient
+leurs intitulés au milieu d'une phrase, séquelle de l'extraction PDF, et
+basculaient sur le découpage de repli en paragraphes. Une seconde passe les
+reconnaît, ramenant ce taux à 24 %.
+
+### Deux pistes qui ont échoué
+
+Écarter les sections fourre-tout — « miscellaneous », « notices »,
+« representations and warranties » — paraissait évident : elles revenaient
+souvent parmi les faux positifs. Le rappel a chuté de douze points. Ces
+sections abritent fréquemment la clause de résiliation ou le préavis de
+renouvellement des contrats courts.
+
+Écarter les blocs non normatifs quelle que soit leur taille — préambule,
+recitals, identification des parties — a coûté cinq points de F1. Sur un
+contrat dont le premier intitulé arrive tard, ce bloc couvre une large part du
+texte et contient de vraies stipulations. La règle ne s'applique donc qu'aux
+clauses de forme réellement courtes.
+
+Ces deux essais sont conservés dans les commentaires du lexique : l'intuition
+était raisonnable, et sans la mesure elle serait passée pour une amélioration.
+
+### Le périmètre d'une catégorie doit correspondre à celui du libellé mesuré
+
+La catégorie `resiliation` signalait toute faculté de mettre fin au contrat,
+alors que CUAD n'annote que la résiliation sans motif. Mesurer l'une par
+l'autre comptait comme erreurs des signalements parfaitement corrects : la
+précision affichée, 11 %, ne mesurait rien.
+
+Deux issues : restreindre la catégorie pour coller au jeu, ou séparer ce qui
+devait l'être. La première aurait dégradé l'outil pour flatter la mesure. La
+seconde a été retenue : `resiliation_convenance` isole la résiliation sans
+motif — généralement assortie d'une indemnité, donc un risque commercial d'une
+autre nature qu'une résiliation pour manquement — et c'est elle qui est mise en
+regard de CUAD. `resiliation` reste dans le produit, simplement non mesurée.
+
+Le même raisonnement a séparé `responsabilite`, qui vise les plafonds et
+exclusions, de `indemnisation`, qui vise les engagements de garantie. L'un
+limite ce que l'on peut réclamer, l'autre crée une dette potentielle.
+
+Il reste un écart assumé sur la propriété intellectuelle : la catégorie couvre
+les clauses d'indemnité ou de garantie portant sur la PI, que CUAD n'annote pas
+sous ce libellé. Sa précision mesurée, 60 %, est donc un plancher.
+
+## 7. Ce qui reste ouvert
+
+- **Précision de la résiliation sans motif.** 41 %, le point faible. Le motif
+  composé reconnaît la tournure mais ne distingue pas encore une faculté
+  réciproque d'une faculté unilatérale, ni le préavis contractuel du délai de
+  notification d'un autre événement.
+- **Découpage des contrats sans numérotation.** 24 % des contrats CUAD basculent
+  encore sur le repli en paragraphes. Un modèle de segmentation entraîné sur des
+  contrats ferait mieux qu'un jeu de motifs, au prix de la reproductibilité.
 - **Détection d'entités nommées.** L'anonymisation par motifs couvre les formes
   courantes. Une reconnaissance d'entités locale (sans appel distant) élargirait
   la couverture aux noms propres isolés.
